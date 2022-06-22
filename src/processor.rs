@@ -164,15 +164,15 @@ impl ProcessorState {
                         println!("V{:01x} += V{:01x}", (0x0F00 & opcode) >> 8,  (0x00F0 & opcode) >> 4);
                         let x = ((0x0F00 & opcode) >> 8) as usize;
                         let y = ((0x00F0 & opcode) >> 4) as usize;
-                        self.registers[x] = self.registers[x].wrapping_add(self.registers[y]);
                         self.registers[0xF] = self.registers[x].checked_add(self.registers[y]).is_none() as u8;
+                        self.registers[x] = self.registers[x].wrapping_add(self.registers[y]);
                     },
                     0x0005 => {
                         println!("V{:01x} -= V{:01x}", (0x0F00 & opcode) >> 8,  (0x00F0 & opcode) >> 4);
                         let x = ((0x0F00 & opcode) >> 8) as usize;
                         let y = ((0x00F0 & opcode) >> 4) as usize;
-                        self.registers[x] = self.registers[x].wrapping_sub(self.registers[y]);
                         self.registers[0xF] = self.registers[x].checked_sub(self.registers[y]).is_some() as u8;
+                        self.registers[x] = self.registers[x].wrapping_sub(self.registers[y]);
                     },
                     0x0006 => {
                         println!("V{:01x} >>= 1", (0x0F00 & opcode) >> 8);
@@ -184,8 +184,8 @@ impl ProcessorState {
                         let x = ((0x0F00 & opcode) >> 8) as usize;
                         let y = ((0x00F0 & opcode) >> 4) as usize;
                         println!("V{:01x} = V{:01x} - V{:01x}", (0x0F00 & opcode) >> 8,  (0x00F0 & opcode) >> 4, (0x0F00 & opcode) >> 8);
-                        self.registers[x] = self.registers[y].wrapping_sub(self.registers[x]);
                         self.registers[0xF] = self.registers[y].checked_sub(self.registers[x]).is_some() as u8;
+                        self.registers[x] = self.registers[y].wrapping_sub(self.registers[x]);
                     },
                     0x000E => {
                         println!("V{:01x} <<= 1", (0x0F00 & opcode) >> 8);

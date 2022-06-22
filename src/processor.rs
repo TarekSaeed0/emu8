@@ -228,7 +228,6 @@ impl ProcessorState {
                     let y = ((0x00F0 & opcode) >> 4) as usize;
                     let sprite = &self.memory[self.index_register as usize..(self.index_register + (0x000F & opcode)) as usize];
                     self.registers[0xF] = self.display.lock().unwrap().draw(self.registers[x] as usize, self.registers[y] as usize, sprite) as u8;
-                    println!("Vf after draw: {}", self.registers[0xF]);
                 },
                 0xE000 => match opcode & 0x00FF { 
                     0x009E => {
